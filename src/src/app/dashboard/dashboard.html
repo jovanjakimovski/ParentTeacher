@@ -1,0 +1,280 @@
+<!-- Main container with a light gray background -->
+<div class="bg-gray-100 min-h-screen p-4 sm:p-8">
+  <div class="max-w-7xl mx-auto" *ngIf="currentUser() as user">
+    <!-- Header Section -->
+    <header class="mb-8">
+      <h2 class="text-3xl font-bold text-gray-800">
+        Welcome, {{ user.name }}!
+      </h2>
+      <p class="text-gray-600 mt-1">
+        Here's a summary of your activity. You are logged in as a
+        <span class="font-semibold">{{ user.role }}</span
+        >.
+      </p>
+    </header>
+
+    <!-- Quick Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Unread Messages Card -->
+      <div
+        class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"
+      >
+        <div>
+          <p class="text-sm font-medium text-gray-500">Total Messages</p>
+          <p class="text-3xl font-bold text-blue-600">
+            {{ unreadMessagesCount() }}
+          </p>
+        </div>
+        <div class="bg-blue-100 p-3 rounded-full">
+          <!-- Heroicons envelope icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-blue-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Upcoming Meetings Card -->
+      <div
+        class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"
+      >
+        <div>
+          <p class="text-sm font-medium text-gray-500">Upcoming Meetings</p>
+          <p class="text-3xl font-bold text-green-600">
+            {{ upcomingMeetingsCount() }}
+          </p>
+        </div>
+        <div class="bg-green-100 p-3 rounded-full">
+          <!-- Heroicons calendar icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-green-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- New Files Card -->
+      <div
+        class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"
+      >
+        <div>
+          <p class="text-sm font-medium text-gray-500">New Files</p>
+          <p class="text-3xl font-bold text-yellow-600">
+            {{ newFilesCount() }}
+          </p>
+        </div>
+        <div class="bg-yellow-100 p-3 rounded-full">
+          <!-- Heroicons document-text icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-yellow-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Meeting Requests Card (for Teachers) -->
+      <div
+        *ngIf="user.role === 'Teacher'"
+        class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"
+      >
+        <div>
+          <p class="text-sm font-medium text-gray-500">Meeting Requests</p>
+          <p class="text-3xl font-bold text-red-600">
+            {{ pendingMeetingRequests() }}
+          </p>
+        </div>
+        <div class="bg-red-100 p-3 rounded-full">
+          <!-- Heroicons user-group icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-red-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Recent Messages Section -->
+      <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Recent Messages
+        </h3>
+        <div
+          *ngIf="recentConversations().length > 0; else noMessages"
+          class="space-y-4"
+        >
+          <!-- Message Item -->
+          <a
+            *ngFor="let conv of recentConversations()"
+            [routerLink]="['/messages', conv.id]"
+            class="block cursor-pointer rounded-lg p-3 hover:bg-gray-50"
+          >
+            <div class="flex items-start space-x-4">
+              <div
+                class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold"
+              >
+                {{ conv.title.charAt(0) }}
+              </div>
+              <div class="flex-1">
+                <div class="flex justify-between">
+                  <p class="font-semibold text-gray-800">
+                    {{ conv.title }}
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    {{
+                      conv.messages[conv.messages.length - 1].timestamp
+                        | date : "shortTime"
+                    }}
+                  </p>
+                </div>
+                <p class="text-sm text-gray-600 mt-1">
+                  {{ conv.messages[conv.messages.length - 1].text }}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <ng-template #noMessages>
+          <p class="text-sm text-gray-500">No recent messages.</p>
+        </ng-template>
+        <a
+          routerLink="/messages"
+          class="mt-4 inline-block text-blue-600 hover:underline"
+          >View all messages &rarr;</a
+        >
+      </div>
+
+      <!-- Upcoming Meetings & Files Section -->
+      <div class="space-y-8">
+        <!-- Upcoming Meetings -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-700 mb-4">
+            Upcoming Meetings
+          </h3>
+          <ul
+            *ngIf="upcomingMeetings().length > 0; else noMeetings"
+            class="space-y-3"
+          >
+            <li
+              *ngFor="let meeting of upcomingMeetings()"
+              class="flex items-center justify-between p-2 hover:bg-gray-50 rounded"
+            >
+              <div>
+                <p class="font-medium text-gray-800">
+                  Meeting with {{ getMeetingParticipantName(meeting) }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ meeting.preferredDateTime | date : "medium" }}
+                </p>
+              </div>
+              <span
+                class="text-xs font-semibold px-2 py-1 rounded-full"
+                [ngClass]="getMeetingStatusClass(meeting.status)"
+                >{{ meeting.status }}</span
+              >
+            </li>
+          </ul>
+          <ng-template #noMeetings>
+            <p class="text-sm text-gray-500">No upcoming meetings.</p>
+          </ng-template>
+          <a
+            routerLink="/meeting-requests"
+            class="mt-4 inline-block text-blue-600 hover:underline"
+            >View all meetings &rarr;</a
+          >
+        </div>
+
+        <!-- Recent File Uploads -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-700 mb-4">
+            Recent File Uploads
+          </h3>
+          <ul *ngIf="recentFiles().length > 0; else noFiles" class="space-y-3">
+            <li
+              *ngFor="let file of recentFiles()"
+              class="flex items-center justify-between p-2 hover:bg-gray-50 rounded"
+            >
+              <div class="flex items-center space-x-3">
+                <div class="bg-blue-100 p-2 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-blue-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">{{ file.name }}</p>
+                  <p class="text-xs text-gray-500">
+                    Uploaded by {{ file.uploadedBy }}
+                  </p>
+                </div>
+              </div>
+              <a
+                [href]="file.dataUrl"
+                [download]="file.name"
+                class="text-blue-600 hover:text-blue-800"
+                >Download</a
+              >
+            </li>
+          </ul>
+          <ng-template #noFiles>
+            <p class="text-sm text-gray-500">No recent files.</p>
+          </ng-template>
+          <a
+            routerLink="/file-uploads"
+            class="mt-4 inline-block text-blue-600 hover:underline"
+            >View all files &rarr;</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
