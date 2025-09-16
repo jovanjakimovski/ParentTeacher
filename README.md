@@ -8,6 +8,6 @@
 
 **Course:** Advanced Web Design
 
-**Project Wiki:** (https://github.com/jovanjakimovski/ParentTeacher/wiki/Report)
+**Project Wiki:** (https://github.com/jovanjakimovski/ParentTeacher/wiki)
 
 ---
