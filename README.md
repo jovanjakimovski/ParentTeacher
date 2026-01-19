@@ -1,13 +1,5 @@
-# ParentTeacher Communication Portal
+# Personal Project: Educational Communication Portal (Angular, TypeScript)
 
-**Project:** Parent Teacher Communication Portal
-
-**Author:** Jovan Jakimovski (163088)
-
-**Date:** 16.09.2025
-
-**Course:** Advanced Web Design
-
-**Project Wiki:** (https://github.com/jovanjakimovski/ParentTeacher/wiki)
+**Full Documentation:** (https://github.com/jovanjakimovski/ParentTeacher/wiki)
 
 ---
